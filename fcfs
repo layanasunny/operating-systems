@@ -1,0 +1,51 @@
+#include<stdio.h>
+
+void main(){
+int process;
+int i;
+float avg_wt=0,avg_tat=0;
+printf("Enter the no of process:");
+scanf("%d",&process);
+int bt[process];
+printf("Enter the brust time");
+for( i=0;i<process;i++)
+{
+      scanf("%d",&bt[i]);
+     }
+int tat[process];
+tat[0]=bt[0];
+for(int j=1;j<process;j++)
+{
+    tat[j]=bt[j]+tat[j-1];
+          }
+int wt[process];
+for(i=0;i<process;i++)
+{
+wt[i]=tat[i]-bt[i];          
+  }
+printf("\n Gantt\n");
+for(i=0;i<process;i++)
+{
+     printf("|P%d\t|",i);
+     }
+printf("\n ------------------------------\n");  
+for(i=0;i<process;i++)
+{
+    if(i==0){
+      printf("0\t%d\t",tat[i]);}
+  
+   else{
+   printf("%d\t",tat[i]);
+   }
+       }  
+ printf("\nprocess\tBrust time\t waiting time\tturn around time\n");
+ for(i=0;i<process;i++){
+    printf("%d\t%d\t\t%d\t\t%d\n",i+1,bt[i],wt[i],tat[i]);
+     avg_wt+=wt[i];
+     avg_tat+=tat[i];   }
+   avg_wt/= process;
+   avg_tat/=process;
+    printf("\nAverage waiting time:%.2f \n",avg_wt);   
+   printf("\nAverage turnaround time:%.2f \n",avg_tat); 
+   }
+   
