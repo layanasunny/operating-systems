@@ -1,0 +1,66 @@
+#include <stdio.h>
+
+struct process{
+int prcss,priority,bt,tt,wt;
+};
+void main(){
+	int n,i,j,total_tt=0,total_wt=0;
+	printf("Enter the number of process: ");
+	scanf("%d",&n);
+	struct process pr[n];
+	for(i=0;i<n;i++){
+		pr[i].prcss = i;
+		printf("Enter the burst time for process %d: ",pr[i].prcss);
+		scanf("%d",&pr[i].bt);
+		
+		printf("enter the priority for process %d: ",pr[i].prcss);
+		scanf("%d",&pr[i].priority);
+	}
+	
+	for(i=0;i<n;i++){
+		for(j=0;j<n-1;j++){
+			if(pr[j].priority >pr[j+1].priority){
+			struct process temp = pr[j];
+				pr[j] =pr[j+1];
+				pr[j+1] = temp;
+			}
+		}
+	}
+	pr[0].tt=pr[0].bt;
+	for(i=1;i<n;i++){
+		pr[i].tt = pr[i].bt+pr[i-1].tt;
+	}
+	for(i=0;i<n;i++){
+		pr[i].wt = pr[i].tt+pr[i].bt;
+	}
+	printf("\n Gantt Chart \n");
+	printf("\n");
+	for(i=0;i<n;i++){
+		printf("|P%d\t",pr[i].prcss);
+	}
+	printf("|");
+	printf("\n---------------------------------");
+	printf("\n");
+	for(i=0;i<n;i++){
+		if(i ==0){
+			printf("0\t%d\t",pr[i].tt);
+		}	
+		else{
+			printf("%d\t",pr[i].tt);
+		}
+	}
+	printf("\n");
+	printf("\nProcess\tprty\tBT\tTT\tWT");
+	for(i=0;i<n;i++){
+		printf("\n%d\t%d\t%d\t%d\t%d\t",pr[i].prcss,pr[i].priority,pr[i].bt,pr[i].tt,pr[i].wt);
+	}
+	for(i=0;i<n;i++){
+		total_tt+=pr[i].tt;
+		total_wt+=pr[i].wt;
+	}
+	float avg_tt = total_tt/n;
+	float avg_wt = total_wt/n;
+	printf("\nThe Average turnaround time is %2f",avg_tt);
+	printf("\nThe Average waiting time is %2f",avg_wt);
+	
+}
