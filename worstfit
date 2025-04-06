@@ -1,0 +1,41 @@
+#include <stdio.h>
+
+int main() {
+int b, p, bsize[10], psize[10], allocation[10], i, j, maxIndex, maxSize;
+printf("Enter the number of blocks: ");
+scanf("%d", &b);
+for (i = 0; i < b; i++) {
+printf("Enter the size of block %d: ", i + 1);
+scanf("%d", &bsize[i]);
+}
+printf("Enter the number of processes: ");
+scanf("%d", &p);
+for (i = 0; i < p; i++) {
+printf("Enter the size of process %d: ", i + 1);
+scanf("%d", &psize[i]);
+allocation[i] = -1;
+}
+for (i = 0; i < p; i++) {
+maxSize = -1;
+maxIndex = -1;
+for (j = 0; j < b; j++) {
+if (bsize[j] >= psize[i] && bsize[j] > maxSize) {
+maxSize = bsize[j];
+maxIndex = j;
+}
+}
+if (maxIndex != -1) {
+allocation[i] = maxIndex;
+bsize[maxIndex] -= psize[i];
+}
+}
+printf("\nProcess No.\tProcess Size\tBlock No.\n");
+for (i = 0; i < p; i++) {
+if (allocation[i] != -1) {
+printf("%d\t\t%d\t\t%d\n", i + 1, psize[i], allocation[i] + 1);
+} else {
+printf("%d\t\t%d\t\tWaiting...\n", i + 1, psize[i]);
+}
+}
+return 0;
+}
